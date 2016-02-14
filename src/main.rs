@@ -2,6 +2,7 @@ use std::time::Duration;
 use std::thread;
 
 mod cpu_usage;
+mod command;
 
 // https://github.com/i3/i3status/tree/master/src
 
@@ -10,8 +11,9 @@ fn main() {
 
     loop{
         let cpu = cpu_usage.get().iter().map(|usage| format!("{:5.1}",usage*100f32)).collect::<Vec<String>>().join(" ");
+        let date = command::command("date -u");
 
-        let bar = format!("cpu {}", cpu);
+        let bar = format!("cpu {} | date {}", cpu, date);
 
         println!("{}",bar);
         thread::sleep(Duration::from_millis(1000));
